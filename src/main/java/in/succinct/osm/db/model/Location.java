@@ -4,6 +4,7 @@ import com.venky.geo.GeoLocation;
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
 import com.venky.swf.db.annotations.column.COLUMN_NAME;
 import com.venky.swf.db.annotations.column.COLUMN_SIZE;
+import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.model.Model;
@@ -29,4 +30,8 @@ public interface Location extends Model , GeoLocation {
     
     @Index
     BigDecimal getLng();
+    
+    @IS_VIRTUAL
+    Double getDistance();
+    void setDistance(Double distance);
 }
