@@ -1,0 +1,14 @@
+if [ $# != 2 ] 
+then 
+    echo "$0 from_stage_schema to_app_schema"
+    exit;
+fi
+stage_schema=$1 
+app_schema=$2 
+
+psql $app_schema <<EOF
+\t
+create extension if not exists dblink ;
+create table if not exists locations as (select lat,lng,text from dblink('dbname=$stage_schema', 'select lat,lng,text from locations')as t1 (lat real,lng real,text text)) ;
+commit;
+EOF

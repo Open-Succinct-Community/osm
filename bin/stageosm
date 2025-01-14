@@ -1,0 +1,8 @@
+if [ "$#" != 2 ]
+then 
+    echo "$0 [into_schema] [some downloaded osm file.pbf] "
+    exit 0 
+fi 
+
+osm2pgsql -c -d $1  -O flex -S src/main/resources/scripts/osm_succinct.lua  $2
+
