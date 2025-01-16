@@ -82,7 +82,7 @@
         <div class="p-1 border border-black w-2/6">
             <a target="_blank" class="rounded-t-sm text-green-700"
                 :href="'https://maps.google.com?q='+l.Lat +',' + l.Lng">
-                <i class="fa-solid fa-location-dot"></i> {{((l.Distance? l.Distance : 0)/1000.0).toFixed(2)}} km
+                <i class="fa-solid fa-location-dot"></i> {{ (l.Distance / 1000.0).toFixed(2) }} Kms
             </a>
         </div>
     </div>

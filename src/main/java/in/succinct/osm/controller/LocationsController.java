@@ -108,7 +108,7 @@ public class LocationsController extends ModelController<Location> {
                 locations.sort(new LocationComparator(center));
             }else  {
                 for (Location location : locations) {
-                    location.setDistance(center.distanceTo(new GeoCoordinate(location)));
+                    location.setDistance(center.distanceTo(new GeoCoordinate(location)) * 1000);
                 }
             }
         }
