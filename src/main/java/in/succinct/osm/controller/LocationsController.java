@@ -102,9 +102,15 @@ public class LocationsController extends ModelController<Location> {
         Circle circle = getCircle();
         GeoCoordinate center = circle.getCenter();
         
-        List<Location> locations = super.searchRecords(q, center == null ? maxRecords : 0);
+        List<Location> locations = super.searchRecords(q, maxRecords , center == null ? 0 : 2 );
         if (center != null && circle.getDistance() > 0) {
-            locations.sort(new LocationComparator(center));
+            if (locations.size() > 1) {
+                locations.sort(new LocationComparator(center));
+            }else  {
+                for (Location location : locations) {
+                    location.setDistance(center.distanceTo(new GeoCoordinate(location));
+                }
+            }
         }
         if (maxRecords > 0 && locations.size() > maxRecords) {
             locations = locations.subList(0,maxRecords);

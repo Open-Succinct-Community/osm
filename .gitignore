@@ -12,7 +12,7 @@ database/
 .commit
 *.iml
 docs/_build
-src/main/resources/scripts/node_modules/
+src/main/resources/**/node_modules/
 /.gradle/
 .keystore
 .index

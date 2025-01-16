@@ -1,0 +1,89 @@
+<script type="text/javascript" src="/scripts/node_modules/lockr/lockr.min.js" defer></script>
+<script type="text/javascript" src="/scripts/node_modules/axios/dist/axios.min.js" defer></script>
+<script type="text/javascript" src="/scripts/node_modules/vue/dist/vue.global.js" defer></script>
+<script type="text/javascript" src="/scripts/swf/js/entity_helper.js" defer></script>
+<link rel="stylesheet" href="/templates/css/osm.css" />
+<script src="https://kit.fontawesome.com/917c1628d3.js" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(function () {
+        var params = (new URL(window.location)).searchParams;
+        var term = params.get("search");
+
+        let PreferredMaxDistance = Lockr.get("PreferredMaxDistance");
+        if (!PreferredMaxDistance) {
+            PreferredMaxDistance = 10;
+        }
+        Lockr.set("PreferredMaxDistance", PreferredMaxDistance);
+
+        Vue.createApp({
+            el: "#app",
+            data() {
+
+                return {
+                    search: {
+                        MaxDistance: Lockr.get("PreferredMaxDistance") || 10,
+                        term: term || "",
+                        results: [],
+                    }
+                }
+            },
+            methods: {
+                onSearch(ev) {
+                    ev && ev.preventDefault();
+                    let self = this;
+                    self.spinner(true);
+                    self.search.results.splice(0, self.search.results.length);
+                    api().url("/locations/search").get({ "q": this.search.term, "maxRecords": 50, "radius": 15 }).then(response => {
+                        self.search.results = response.Locations;
+                    }).finally(() => {
+                        self.spinner(false);
+                    });
+
+
+                },
+                spinner(on) {
+                    //Overriden in Home.vue
+                    if (on) {
+                        document.getElementsByTagName("body")[0].setAttribute("cursor", "progress");
+                    } else {
+                        document.getElementsByTagName("body")[0].setAttribute("cursor", "default");
+                    }
+                },
+
+            }
+        }).mount("#app");
+    });
+</script>
+<div id="app">
+    <form class="flex flex-row justify-items-center justify-center m-10" action="javascript;"
+        @submit="onSearch($event)">
+
+        <div class="w-1/2 mr-1">
+            <input type="text" class="w-full h-full" v-model="search.term" />
+        </div>
+        <div class="w-1/4 ml-1">
+            <button class="w-full h-full bg-blue-500 " type="submit">Search</button>
+        </div>
+    </form>
+    <div class="flex flex-row justify-center mx-10 bg-blue-600">
+        <div class="p-1 border border-black w-full flex truncate text-ellipsis">
+            Name
+        </div>
+        <div class="p-1 border border-black w-2/6">
+            <p class="invisible sm:visible">Distance</p>
+        </div>
+    </div>
+    <div class="flex flex-row justify-center mx-10 overflow-x-scroll" :class="i%2==0 ? 'bg-slate-400' : 'bg-white'"
+        v-for=" (l,i) in search.results">
+        <div class="p-1 border border-black w-full">
+            {{l.Text}}
+        </div>
+        <div class="p-1 border border-black w-2/6">
+            <a target="_blank" class="rounded-t-sm text-green-700"
+                :href="'https://maps.google.com?q='+l.Lat +',' + l.Lng">
+                <i class="fa-solid fa-location-dot"></i> {{((l.Distance? l.Distance : 0)/1000.0).toFixed(2)}} km
+            </a>
+        </div>
+    </div>
+</div>
