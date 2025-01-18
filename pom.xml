@@ -9,6 +9,7 @@
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <revision>2.15-SNAPSHOT</revision>
+       <collab.revision>2.13-SNAPSHOT</collab.revision>
     </properties>
     <build>
         <plugins>
@@ -63,8 +64,8 @@
     </dependency>
     <dependency>
       <groupId>com.github.venkatramanm.swf-all</groupId>
-      <artifactId>swf</artifactId>
-      <version>[${revision},)</version>
+      <artifactId>swf-plugin-collab</artifactId>
+      <version>[${collab.revision},)</version>
     </dependency>
       <dependency>
           <groupId>in.succinct</groupId>
