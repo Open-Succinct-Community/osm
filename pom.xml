@@ -72,6 +72,11 @@
           <artifactId>swf-plugin-tailwind</artifactId>
           <version>[1.0-SNAPSHOT,)</version>
       </dependency>
+      <dependency>
+          <groupId>in.succinct</groupId>
+          <artifactId>plugin.osm</artifactId>
+          <version>[1.0-SNAPSHOT,)</version>
+      </dependency>
         <dependency>
           <groupId>com.h2database</groupId>
           <artifactId>h2</artifactId>
