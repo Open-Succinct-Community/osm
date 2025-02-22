@@ -34,7 +34,7 @@
                     let self = this;
                     self.spinner(true);
                     self.search.results.splice(0, self.search.results.length);
-                    api().url("/locations/search").get({ "q": this.search.term, "maxRecords": 50, "radius": 15 }).then(response => {
+                    api().url("/locations/find").get({ "q": this.search.term, "maxRecords": 50, "radius": 15 }).then(response => {
                         self.search.results = response.Locations;
                     }).finally(() => {
                         self.spinner(false);
