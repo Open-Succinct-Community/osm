@@ -9,11 +9,10 @@
     $(function () {
         var params = (new URL(window.location)).searchParams;
         var term = params.get("search");
+        var radius = params.get("radius") || Lockr.get("PreferredMaxDistance");
 
-        let PreferredMaxDistance = Lockr.get("PreferredMaxDistance");
-        if (!PreferredMaxDistance) {
-            PreferredMaxDistance = 10;
-        }
+        let PreferredMaxDistance = radius ||  10;
+
         Lockr.set("PreferredMaxDistance", PreferredMaxDistance);
 
         Vue.createApp({
@@ -34,7 +33,7 @@
                     let self = this;
                     self.spinner(true);
                     self.search.results.splice(0, self.search.results.length);
-                    api().url("/locations/find").get({ "q": this.search.term, "maxRecords": 50, "radius": 15 }).then(response => {
+                    api().url("/locations/find").get({ "q": this.search.term, "maxRecords": 50, "radius": this.search.MaxDistance }).then(response => {
                         self.search.results = response.Locations;
                     }).finally(() => {
                         self.spinner(false);
