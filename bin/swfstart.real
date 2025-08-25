@@ -49,7 +49,7 @@ esac
 
 if [ "${closeStdFd}" = "" ] 
 then 
-    closeStdFd=true;
+    closeStdFd=false;
 fi
 
 export separator;
